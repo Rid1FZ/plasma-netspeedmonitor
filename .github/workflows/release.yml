@@ -1,0 +1,36 @@
+name: Publish Plasmoid Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Extract version from tag
+        id: extract_version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
+
+      - name: Inject version into metadata.json
+        run: |
+          jq '.KPlugin.Version = "${{ env.VERSION }}"' metadata.json > metadata.tmp.json
+          mv metadata.tmp.json metadata.json
+
+      - name: Package Plasmoid
+        run: |
+          zip -r com.github.rid1fz.netspeedmonitor.plasmoid metadata.json contents/
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: com.github.rid1fz.netspeedmonitor.plasmoid
+          name: Release ${{ env.VERSION }}
+          generate_release_notes: true

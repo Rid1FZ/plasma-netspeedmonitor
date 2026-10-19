@@ -1,0 +1,23 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Name": "Rid1FZ",
+                "Email": ""
+            }
+        ],
+        "Category": "Network",
+        "Description": "Real-time network download and upload speed monitor on the taskbar",
+        "Icon": "network-workgroup",
+        "Id": "com.github.rid1fz.netspeedmonitor",
+        "License": "GPL-2.0+",
+        "Name": "Netspeed Monitor",
+        "Version": "1.0.0",
+        "Website": "https://github.com/Rid1FZ"
+    },
+    "KPackageStructure": "Plasma/Applet",
+    "X-Plasma-API-Minimum-Version": "6.0",
+    "X-Plasma-Provides": [
+        "com.github.rid1fz.netspeedmonitor"
+    ]
+}

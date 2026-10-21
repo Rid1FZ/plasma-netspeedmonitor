@@ -150,8 +150,13 @@ PlasmoidItem {
     }
 
     fullRepresentation: ColumnLayout {
+        id: fullLayout
+
         Layout.minimumWidth: Kirigami.Units.gridUnit * 14
-        Layout.minimumHeight: Kirigami.Units.gridUnit * 8
+        Layout.preferredWidth: Kirigami.Units.gridUnit * 14
+        Layout.minimumHeight: implicitHeight
+        Layout.preferredHeight: implicitHeight
+        Layout.maximumHeight: implicitHeight
         spacing: Kirigami.Units.smallSpacing
 
         PlasmaComponents.Label {

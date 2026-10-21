@@ -152,12 +152,30 @@ PlasmoidItem {
     fullRepresentation: ColumnLayout {
         id: fullLayout
 
-        Layout.minimumWidth: Kirigami.Units.gridUnit * 14
-        Layout.preferredWidth: Kirigami.Units.gridUnit * 14
+        // Size the popup to its content instead of Plasma's large default.
+        Layout.minimumWidth: implicitWidth
+        Layout.preferredWidth: implicitWidth
+        Layout.maximumWidth: implicitWidth
         Layout.minimumHeight: implicitHeight
         Layout.preferredHeight: implicitHeight
         Layout.maximumHeight: implicitHeight
         spacing: Kirigami.Units.smallSpacing
+
+        // Reserve the width of the longest possible values so the popup
+        // never resizes as the numbers change.
+        TextMetrics {
+            id: speedMetrics
+            font.family: Kirigami.Theme.fixedFont.family
+            font.bold: true
+            text: "↓ 1023.9 MB/s"
+        }
+        TextMetrics {
+            id: totalMetrics
+            font.family: Kirigami.Theme.fixedFont.family
+            font.bold: true
+            text: "1023.99 GB"
+        }
+        readonly property real valueWidth: Math.ceil(Math.max(speedMetrics.width, totalMetrics.width))
 
         PlasmaComponents.Label {
             text: i18n("Network Speed")
@@ -174,6 +192,8 @@ PlasmoidItem {
             PlasmaComponents.Label { text: i18n("Download:") }
             PlasmaComponents.Label {
                 text: "↓ " + root.formatSpeed(root.rxSpeed)
+                Layout.preferredWidth: fullLayout.valueWidth
+                horizontalAlignment: Text.AlignRight
                 color: root.rxColor
                 font.family: Kirigami.Theme.fixedFont.family
                 font.bold: true
@@ -182,6 +202,8 @@ PlasmoidItem {
             PlasmaComponents.Label { text: i18n("Upload:") }
             PlasmaComponents.Label {
                 text: "↑ " + root.formatSpeed(root.txSpeed)
+                Layout.preferredWidth: fullLayout.valueWidth
+                horizontalAlignment: Text.AlignRight
                 color: root.txColor
                 font.family: Kirigami.Theme.fixedFont.family
                 font.bold: true
@@ -190,6 +212,8 @@ PlasmoidItem {
             PlasmaComponents.Label { text: i18n("Total down:") }
             PlasmaComponents.Label {
                 text: root.formatBytes(root.totalRx)
+                Layout.preferredWidth: fullLayout.valueWidth
+                horizontalAlignment: Text.AlignRight
                 color: root.rxColor
                 font.family: Kirigami.Theme.fixedFont.family
             }
@@ -197,11 +221,11 @@ PlasmoidItem {
             PlasmaComponents.Label { text: i18n("Total up:") }
             PlasmaComponents.Label {
                 text: root.formatBytes(root.totalTx)
+                Layout.preferredWidth: fullLayout.valueWidth
+                horizontalAlignment: Text.AlignRight
                 color: root.txColor
                 font.family: Kirigami.Theme.fixedFont.family
             }
         }
-
-        Item { Layout.fillHeight: true }
     }
 }
